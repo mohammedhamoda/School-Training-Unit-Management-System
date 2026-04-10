@@ -2,6 +2,8 @@
 
 > **A lightning-fast, offline-first Windows desktop application built to streamline educational administration.**
 
+🔒 **Note on Confidentiality:** *To respect client privacy and data security, all specific school branding, logos, and identifying information have been scrubbed and replaced with generic placeholders in this public repository.*
+
 A comprehensive, native desktop software developed for a school's training unit. The system digitizes the management of employees, strategic plans, goals, and training reports, while maintaining an integrated local video library. 
 
 ## 🚀 Tech Stack
@@ -23,4 +25,4 @@ Instead of relying on heavy frameworks like Electron, I utilized **Tauri** to br
 2. **Local Media Handling:** Bypassing standard web browser limitations, I leveraged Tauri's native OS APIs to seamlessly access and stream the school's local video training library directly within the app.
 3. **Data-to-PDF Pipeline:** I engineered a client-side reporting module that takes complex, relational local data (goals, employee stats, and plans) and dynamically renders them into formatted PDF documents ready for printing.
 
-**The Result:** A zero-latency, secure, and modern desktop application tailored precisely to the administration's needs, delivered as a lightweight `.exe` file.
+**The Result:** A smooth, secure, and modern desktop application tailored precisely to the administration's needs, delivered as a lightweight `.exe` file.

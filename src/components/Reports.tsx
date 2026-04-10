@@ -2,9 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { Printer, FileText, Upload, Trash2, Plus, X, CheckCircle, FileUp, Calendar, Users, Target, Building2, TrendingUp, BookOpen } from 'lucide-react';
 import { db, SchoolDetails, Employee, TimelinePlan, Program, AdminDetails, CustomPDF } from '../db';
-import { writeFile } from "@tauri-apps/plugin-fs";
-import { openPath } from "@tauri-apps/plugin-opener";
-import { tempDir, join, BaseDirectory } from '@tauri-apps/api/path';
 
 declare global {
   interface Window {
@@ -195,36 +192,36 @@ export default function Reports() {
       const isTauri = window.__TAURI_INTERNALS__ || window.__TAURI__;
 
       if (isTauri) {
-        let uint8Array: Uint8Array;
         try {
+          // Dynamic Imports: بيتم استدعاء المكتبات هنا فقط لو إحنا على الديسكتوب
+          const { writeFile } = await import("@tauri-apps/plugin-fs");
+          const { openPath } = await import("@tauri-apps/plugin-opener");
+          const { tempDir, join, BaseDirectory } = await import("@tauri-apps/api/path");
+
+          let uint8Array: Uint8Array;
           const arrayBuffer = await blob.arrayBuffer();
           uint8Array = new Uint8Array(arrayBuffer);
-        } catch (e: unknown) {
-          const errorMessage = e instanceof Error ? e.message : String(e);
-          throw new Error("فشل تحويل الملف (قد يكون تالفاً في قاعدة البيانات): " + errorMessage);
-        }
 
-        const safeFileName = `print_${Date.now()}.pdf`;
-        try {
+          const safeFileName = `print_${Date.now()}.pdf`;
+          
           await writeFile(safeFileName, uint8Array, {
             baseDir: BaseDirectory.Temp
           });
-        } catch (e: unknown) {
-          const errorMessage = e instanceof Error ? e.message : String(e);
-          throw new Error(`فشل حفظ الملف مؤقتاً (تأكد من صلاحيات Tauri fs): ${errorMessage}`);
-        }
-        try {
+          
           const tempDirPath = await tempDir();
           const fullPath = await join(tempDirPath, safeFileName);
           
           await openPath(fullPath);
+          return;
+
         } catch (e: unknown) {
           const errorMessage = e instanceof Error ? e.message : String(e);
-          throw new Error(`فشل فتح الملف (تأكد من صلاحيات Tauri opener): ${errorMessage}`);
+          throw new Error(`خطأ في بيئة Tauri: ${errorMessage}`);
         }
-
-        return;
       }
+
+      // --- كود الويب (Web Fallback) ---
+      // لو إحنا على الويب، الكود ده اللي هيشتغل
       const url = URL.createObjectURL(blob);
       const opened = window.open(url, '_blank');
       

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Lock } from 'lucide-react';
-import './app.css';
+import './App.css';
 import logoImg from './assets/logo.png';
 import SplashScreen from './components/SplashScreen';
 import SchoolDetails from './components/SchoolDetails';

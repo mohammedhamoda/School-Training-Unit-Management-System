@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# IDE files
+.vscode/
+
+# Build files (مهم جداً عشان أنت شغال بـ Tauri و React)
+dist/
+build/
+src-tauri/target/
+
+# Environment variables (لو عندك ملفات سرية)
+.env
+.env.local
